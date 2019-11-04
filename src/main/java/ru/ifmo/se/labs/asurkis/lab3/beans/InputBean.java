@@ -1,0 +1,64 @@
+package ru.ifmo.se.labs.asurkis.lab3.beans;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import java.util.Arrays;
+import java.util.Objects;
+
+@ManagedBean(name="input")
+@ViewScoped
+public class InputBean {
+    private int x;
+    private double y;
+    private boolean[] rs = new boolean[5];
+
+    @Override
+    public String toString() {
+        return "InputBean{" +
+                "x=" + x +
+                ", y=" + y +
+                ", rs=" + Arrays.toString(rs) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InputBean inputBean = (InputBean) o;
+        return x == inputBean.x &&
+                Double.compare(inputBean.y, y) == 0 &&
+                Arrays.equals(rs, inputBean.rs);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(x, y);
+        result = 31 * result + Arrays.hashCode(rs);
+        return result;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public boolean[] getRs() {
+        return rs;
+    }
+
+    public void setRs(boolean[] rs) {
+        this.rs = rs;
+    }
+}

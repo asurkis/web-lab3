@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <style>
+        .ui-analog-clock {
+            width: 200px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div>
+        <div>Студент: Суркис Антон Игоревич</div>
+        <div>Группа: P3213</div>
+        <div>Вариант: 213905</div>
+    </div>
+
+    <h:form>
+        <p:clock mode="server" displayMode="analog" />
+        <h:commandLink action="main" value="main" />
+    </h:form>
+</h:body>
+</html>

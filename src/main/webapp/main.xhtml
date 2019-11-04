@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <style>
+        line {
+            stroke: black;
+        }
+
+        #r1-path {
+            fill: #cdf;
+        }
+
+        #r2-path {
+            fill: #cff;
+        }
+
+        #r3-path {
+            fill: #ccf;
+        }
+
+        #r4-path {
+            fill: #6ff;
+        }
+
+        #r5-path {
+            fill: #6cf;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <table>
+            <tr>
+                <td> X: </td>
+                <td>
+                    <h:selectOneMenu value="#{input.x}">
+                        <f:selectItem itemValue="-5" itemLabel="-5" />
+                        <f:selectItem itemValue="-4" itemLabel="-4" />
+                        <f:selectItem itemValue="-3" itemLabel="-3" />
+                        <f:selectItem itemValue="-2" itemLabel="-2" />
+                        <f:selectItem itemValue="-1" itemLabel="-1" />
+                        <f:selectItem itemValue="0"  itemLabel="0"  />
+                        <f:selectItem itemValue="1"  itemLabel="1"  />
+                        <f:selectItem itemValue="2"  itemLabel="2"  />
+                        <f:selectItem itemValue="3"  itemLabel="3"  />
+                    </h:selectOneMenu>
+                </td>
+                <td> </td>
+            </tr>
+
+            <tr>
+                <td> Y: </td>
+                <td>
+                    <h:inputText id="inputY" autocomplete="off" validatorMessage="Введите число от -3 до 5">
+                        <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
+                    </h:inputText>
+                </td>
+                <td> <h:message for="inputY" style="color: red" /> </td>
+            </tr>
+
+            <tr>
+                <td> R: </td>
+                <td>
+                    <div>
+                        <h:selectBooleanCheckbox id="r1" value="#{input.rs[0]}">
+                            <f:ajax execute="r1" render="pictureOutput" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r1"> 1 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r2" value="#{input.rs[1]}">
+                            <f:ajax execute="r2" render="pictureOutput" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r2"> 2 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r3" value="#{input.rs[2]}">
+                            <f:ajax execute="r3" render="pictureOutput" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r3"> 3 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r4" value="#{input.rs[3]}">
+                            <f:ajax execute="r4" render="pictureOutput" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r4"> 4 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r5" value="#{input.rs[4]}">
+                            <f:ajax execute="r5" render="pictureOutput" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r5"> 5 </h:outputLabel>
+                    </div>
+                </td>
+                <td> <h:message for="r1" style="color: red" /> </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h:commandButton value="Проверить" />
+                </td>
+            </tr>
+        </table>
+    </h:form>
+    <h:form> <h:commandLink action="welcome" value="welcome" /> </h:form>
+
+    <h:outputText id="pictureOutput" value="#{picture.svg}" escape="false" />
+</h:body>
+</html>
