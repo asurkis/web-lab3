@@ -55,7 +55,7 @@
             <tr>
                 <td> Y: </td>
                 <td>
-                    <h:inputText id="inputY" autocomplete="off" validatorMessage="Введите число от -3 до 5">
+                    <h:inputText id="inputY" value="#{input.y}" autocomplete="off" validatorMessage="Введите число от -3 до 5">
                         <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
                     </h:inputText>
                 </td>
@@ -101,7 +101,7 @@
 
             <tr>
                 <td colspan="3">
-                    <h:commandButton value="Проверить" />
+                    <h:commandButton action="#{input.addCurrent()}" value="Проверить" />
                 </td>
             </tr>
         </table>
@@ -109,5 +109,6 @@
     <h:form> <h:commandLink action="welcome" value="welcome" /> </h:form>
 
     <h:outputText id="pictureOutput" value="#{picture.svg}" escape="false" />
+    <h:outputText value="#{picture.table}" escape="false" />
 </h:body>
 </html>

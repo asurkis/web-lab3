@@ -2,15 +2,37 @@ package ru.ifmo.se.labs.asurkis.lab3.beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 @ManagedBean(name="input")
 @ViewScoped
-public class InputBean {
+public class InputBean implements Serializable {
     private int x;
     private double y;
     private boolean[] rs = new boolean[5];
+
+    public void addCurrent() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+
+        int rCount = 0;
+        for (boolean r: rs) {
+            rCount += r ? 1 : 0;
+        }
+
+        double[] rs = new double[rCount];
+        int ri = 0;
+        for (int i = 0; i < rs.length; i++) {
+            if (this.rs[i]) {
+                rs[ri++] = i + 1;
+            }
+        }
+
+        modelBean.addPoint(x, y, rs);
+    }
 
     @Override
     public String toString() {
