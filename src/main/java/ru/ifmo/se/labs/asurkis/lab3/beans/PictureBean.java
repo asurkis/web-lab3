@@ -12,18 +12,23 @@ public class PictureBean implements Serializable {
     public String getTable() {
         StringBuilder builder = new StringBuilder();
         builder.append("<table>");
-        builder.append("<tr><td>X</td><td>Y</td><td>R</td><td>Результат</td></tr>");
+        builder.append("<tr><td>X</td><td>Y</td><td>R</td><td>Попадает?</td></tr>");
 
         FacesContext context = FacesContext.getCurrentInstance();
         ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
         for (Result result: modelBean.getResults()) {
-            builder.append("<tr><td>");
-            builder.append(result.getPoint().getX());
-            builder.append("</td><td>");
-            builder.append(result.getPoint().getY());
-            builder.append("</td><td>");
-            builder.append(Arrays.toString(result.getRadiuses()));
-            builder.append("</td><td></td></tr>");
+            Point point = result.getPoint();
+            for (double r: result.getRadiuses()) {
+                builder.append("<tr><td>");
+                builder.append(point.getX());
+                builder.append("</td><td>");
+                builder.append(point.getY());
+                builder.append("</td><td>");
+                builder.append(r);
+                builder.append("</td><td>");
+                builder.append(point.fallsInto(r) ? "Да" : "Нет");
+                builder.append("</td></tr>");
+            }
         }
 
         builder.append("</table>");
@@ -119,11 +124,41 @@ public class PictureBean implements Serializable {
             builder.append("\" />");
         }
 
+        if (radiusCount == 0) {
+            builder.append("<circle cx=\"12\" cy=\"12\" r=\"5\" style=\"");
+            builder.append(pointStyle(0, 0));
+            builder.append("\" /><text x=\"24\" y=\"18\"> Радиусы не заданы </text>");
+        } else {
+            for (int i = 0; i <= radiusCount; i++) {
+                builder.append("<circle cx=\"12\" cy=\"");
+                builder.append(24 * i + 12);
+                builder.append("\" r=\"5\" style=\"");
+                builder.append(pointStyle(radiusCount, i));
+                builder.append("\" /><text x=\"24\" y=\"");
+                builder.append(24 * i + 18);
+                builder.append("\"> Попадает в ");
+                builder.append(i);
+                builder.append(" радиус(ов) </text>");
+            }
+        }
+
         builder.append("</svg>");
         return builder.toString();
     }
 
     private String pointStyle(int radiusCount, int matchCount) {
-        return "stroke: #000; fill: #888";
+        if (radiusCount == 0) {
+            return "stroke: #000; fill: #888";
+        }
+
+        double a = (double) matchCount / radiusCount;
+        double r = 255 * Math.sqrt(1 - a);
+        double g = 255 * Math.sqrt(a);
+        double b = 0;
+        int ri = (int) r;
+        int gi = (int) g;
+        int bi = (int) b;
+
+        return String.format("stroke: #000; fill: rgb(%d, %d, %d)", ri, gi, bi);
     }
 }
