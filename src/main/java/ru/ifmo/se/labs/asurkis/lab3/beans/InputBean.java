@@ -10,7 +10,7 @@ import java.util.Objects;
 @ManagedBean(name="input")
 @ViewScoped
 public class InputBean implements Serializable {
-    private int x;
+    private double x;
     private double y;
     private boolean[] rs = new boolean[5];
 
@@ -18,20 +18,11 @@ public class InputBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
 
-        int rCount = 0;
-        for (boolean r: rs) {
-            rCount += r ? 1 : 0;
-        }
-
-        double[] rs = new double[rCount];
-        int ri = 0;
         for (int i = 0; i < rs.length; i++) {
-            if (this.rs[i]) {
-                rs[ri++] = i + 1;
+            if (rs[i]) {
+                modelBean.addResult(x, y, i + 1);
             }
         }
-
-        modelBean.addPoint(x, y, rs);
     }
 
     @Override
@@ -60,11 +51,11 @@ public class InputBean implements Serializable {
         return result;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 

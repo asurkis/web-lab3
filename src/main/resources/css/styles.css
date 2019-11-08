@@ -1,0 +1,40 @@
+.resultsTable th, .resultsTable td {
+    width: 100px;
+}
+
+.resultsTable td {
+    text-align: right;
+}
+
+.resultsTable thead, .resultsTable tbody {
+    display: block;
+}
+
+.resultsTable tbody {
+    height: 600px;
+    overflow: scroll;
+}
+
+line {
+    stroke: black;
+}
+
+#r1-path {
+    fill: #cdf;
+}
+
+#r2-path {
+    fill: #cff;
+}
+
+#r3-path {
+    fill: #ccf;
+}
+
+#r4-path {
+    fill: #6ff;
+}
+
+#r5-path {
+    fill: #6cf;
+}

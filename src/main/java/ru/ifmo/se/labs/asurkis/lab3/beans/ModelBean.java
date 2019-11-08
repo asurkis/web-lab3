@@ -12,8 +12,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ModelBean implements Serializable {
     private List<Result> results = new CopyOnWriteArrayList<>();
 
-    public void addPoint(double x, double y, double[] rs) {
-        results.add(new Result(new Point(x, y), rs));
+    public void addResult(double x, double y, double r) {
+        results.add(new Result(new Point(x, y), r));
+    }
+
+    public void removeResult(Result result) {
+        results.remove(result);
     }
 
     @Override
