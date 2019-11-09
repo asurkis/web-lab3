@@ -1,3 +1,16 @@
+body > form {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.resultsTable {
+    text-align: right;
+}
+
+.resultsTable tbody tr:hover {
+    background-color: #efe;
+}
+
 .resultsTable th, .resultsTable td {
     width: 100px;
 }
@@ -13,6 +26,14 @@
 .resultsTable tbody {
     height: 600px;
     overflow: scroll;
+}
+
+.resultsTableOddRow {
+    background-color: #eee;
+}
+
+#pictureForm\:svgInputX, #pictureForm\:svgInputY, #pictureForm\:checkButton {
+    display: none;
 }
 
 line {

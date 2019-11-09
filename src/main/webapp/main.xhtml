@@ -10,83 +10,123 @@
 </h:head>
 
 <h:body>
-    <h:form>
-    <table>
-        <tr>
-            <td> X: </td>
-            <td>
-                <h:selectOneMenu value="#{input.x}">
-                    <f:selectItem itemValue="-5" itemLabel="-5" />
-                    <f:selectItem itemValue="-4" itemLabel="-4" />
-                    <f:selectItem itemValue="-3" itemLabel="-3" />
-                    <f:selectItem itemValue="-2" itemLabel="-2" />
-                    <f:selectItem itemValue="-1" itemLabel="-1" />
-                    <f:selectItem itemValue="0" itemLabel="0" />
-                    <f:selectItem itemValue="1" itemLabel="1" />
-                    <f:selectItem itemValue="2" itemLabel="2" />
-                    <f:selectItem itemValue="3" itemLabel="3" />
-                </h:selectOneMenu>
-            </td>
-            <td />
-        </tr>
+    <h:form id="inputForm">
+        <table>
+            <tr>
+                <td> X: </td>
+                <td>
+                    <h:selectOneMenu value="#{input.x}">
+                        <f:selectItem itemValue="-5" itemLabel="-5" />
+                        <f:selectItem itemValue="-4" itemLabel="-4" />
+                        <f:selectItem itemValue="-3" itemLabel="-3" />
+                        <f:selectItem itemValue="-2" itemLabel="-2" />
+                        <f:selectItem itemValue="-1" itemLabel="-1" />
+                        <f:selectItem itemValue="0" itemLabel="0" />
+                        <f:selectItem itemValue="1" itemLabel="1" />
+                        <f:selectItem itemValue="2" itemLabel="2" />
+                        <f:selectItem itemValue="3" itemLabel="3" />
+                    </h:selectOneMenu>
+                </td>
+                <td />
+            </tr>
 
-        <tr>
-            <td> Y: </td>
-            <td>
-                <h:inputText id="inputY" value="#{input.y}" autocomplete="off" validatorMessage="Введите число от -3 до 5">
-                    <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
-                </h:inputText>
-            </td>
-            <td> <h:message for="inputY" style="color: red" /> </td>
-        </tr>
+            <tr>
+                <td> Y: </td>
+                <td>
+                    <h:inputText id="inputY" value="#{input.y}" autocomplete="off" validatorMessage="Введите число от -3 до 5">
+                        <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
+                    </h:inputText>
+                </td>
+                <td> <h:message for="inputY" style="color: red" /> </td>
+            </tr>
 
-        <tr>
-            <td> R: </td>
-            <td>
-                <div>
-                    <h:selectBooleanCheckbox id="r1" value="#{input.rs[0]}">
-                        <f:ajax execute="r1" render="pictureOutput" />
-                    </h:selectBooleanCheckbox>
-                    <h:outputLabel for="r1"> 1 </h:outputLabel>
-                </div>
-                <div>
-                    <h:selectBooleanCheckbox id="r2" value="#{input.rs[1]}">
-                        <f:ajax execute="r2" render="pictureOutput" />
-                    </h:selectBooleanCheckbox>
-                    <h:outputLabel for="r2"> 2 </h:outputLabel>
-                </div>
-                <div>
-                    <h:selectBooleanCheckbox id="r3" value="#{input.rs[2]}">
-                        <f:ajax execute="r3" render="pictureOutput" />
-                    </h:selectBooleanCheckbox>
-                    <h:outputLabel for="r3"> 3 </h:outputLabel>
-                </div>
-                <div>
-                    <h:selectBooleanCheckbox id="r4" value="#{input.rs[3]}">
-                        <f:ajax execute="r4" render="pictureOutput" />
-                    </h:selectBooleanCheckbox>
-                    <h:outputLabel for="r4"> 4 </h:outputLabel>
-                </div>
-                <div>
-                    <h:selectBooleanCheckbox id="r5" value="#{input.rs[4]}">
-                        <f:ajax execute="r5" render="pictureOutput" />
-                    </h:selectBooleanCheckbox>
-                    <h:outputLabel for="r5"> 5 </h:outputLabel>
-                </div>
-            </td>
-            <td />
-        </tr>
+            <tr>
+                <td> R: </td>
+                <td>
+                    <div>
+                        <h:selectBooleanCheckbox id="r1" value="#{input.rs[0]}">
+                            <f:ajax execute="r1" render="pictureForm" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r1"> 1 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r2" value="#{input.rs[1]}">
+                            <f:ajax execute="r2" render="pictureForm" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r2"> 2 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r3" value="#{input.rs[2]}">
+                            <f:ajax execute="r3" render="pictureForm" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r3"> 3 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r4" value="#{input.rs[3]}">
+                            <f:ajax execute="r4" render="pictureForm" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r4"> 4 </h:outputLabel>
+                    </div>
+                    <div>
+                        <h:selectBooleanCheckbox id="r5" value="#{input.rs[4]}">
+                            <f:ajax execute="r5" render="pictureForm" />
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="r5"> 5 </h:outputLabel>
+                    </div>
+                </td>
+                <td />
+            </tr>
 
-        <tr>
-            <td colspan="3">
-                <h:commandButton action="#{input.addCurrent()}" value="Проверить" />
-            </td>
-        </tr>
-    </table>
+            <tr>
+                <td colspan="3">
+                    <h:commandButton action="#{input.addCurrent()}" value="Проверить" />
+                </td>
+            </tr>
+        </table>
+        <h:commandLink action="page" value="Назад" />
     </h:form>
-    <h:form> <h:commandLink action="page" value="Назад" /> </h:form>
 
-    <h:form id="pictureOutput">
+    <h:form id="tableForm">
+        <h:dataTable var="result" value="#{model.results}"
+                     styleClass="resultsTable"
+                     headerClass="resultsTableHeader"
+                     rowClasses="resultsTableOddRow,resultsTableEvenRow">
+            <h:column>
+                <h:commandButton action="#{model.removeResult(result)}" value="Удалить" />
+            </h:column>
+            <h:column>
+                <f:facet name="header"> X </f:facet>
+                #{result.point.x}
+            </h:column>
+            <h:column>
+                <f:facet name="header"> Y </f:facet>
+                #{result.point.y}
+            </h:column>
+            <h:column>
+                <f:facet name="header"> R </f:facet>
+                #{result.radius}
+            </h:column>
+            <h:column>
+                <f:facet name="header"> Попадает </f:facet>
+                #{result.result ? "Да" : "Нет"}
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+    <h:form id="pictureForm">
+        <!--
+            При попытке разместить картинку слева происходит какая-то людая жесть
+            Не применяются стили, разные формы объединяются в одну и т.д.
+            Поэтому в этот раз картинка будет справа
+        -->
+        <h:inputText id="svgInputX" value="#{input.x}">
+            <f:validateDoubleRange minimum="-5.0" maximum="3.0" />
+        </h:inputText>
+        <h:inputText id="svgInputY" value="#{input.y}">
+            <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
+        </h:inputText>
+        <h:commandButton id="checkButton" action="#{input.addCurrent()}" value="Проверить" />
+
         <svg xmlns="http://www.w3.org/2000/svg"
              xmlns:c="http://java.sun.com/jsp/jstl/core"
              width="600" height="600">
@@ -137,34 +177,5 @@
             </c:forEach>
         </svg>
     </h:form>
-
-<!--
-    <h:form>
-    <h:dataTable var="result" value="#{model.results}"
-                 styleClass="resultsTable"
-                 headerClass="resultsTableHeader"
-                 rowClasses="resultsTableOddRow,resultsTableEvenRow">
-        <h:column>
-            <h:commandButton action="#{model.removeResult(result)}" value="Удалить" />
-        </h:column>
-        <h:column>
-            <f:facet name="header"> X </f:facet>
-            #{result.point.x}
-        </h:column>
-        <h:column>
-            <f:facet name="header"> Y </f:facet>
-            #{result.point.y}
-        </h:column>
-        <h:column>
-            <f:facet name="header"> R </f:facet>
-            #{result.radius}
-        </h:column>
-        <h:column>
-            <f:facet name="header"> Попадает </f:facet>
-            #{result.result ? "Да" : "Нет"}
-        </h:column>
-    </h:dataTable>
-    </h:form>
--->
 </h:body>
 </html>
