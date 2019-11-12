@@ -20,7 +20,7 @@ public class InputBean implements Serializable {
 
         for (int i = 0; i < rs.length; i++) {
             if (rs[i]) {
-                modelBean.addResult(x, y, i + 1);
+                modelBean.addQuery(x, y, i + 1);
             }
         }
     }

@@ -87,28 +87,28 @@
     </h:form>
 
     <h:form id="tableForm">
-        <h:dataTable var="result" value="#{model.results}"
+        <h:dataTable var="query" value="#{model.queries}"
                      styleClass="resultsTable"
                      headerClass="resultsTableHeader"
                      rowClasses="resultsTableOddRow,resultsTableEvenRow">
             <h:column>
-                <h:commandButton action="#{model.removeResult(result)}" value="Удалить" />
+                <h:commandButton action="#{model.removeQuery(query)}" value="Удалить" />
             </h:column>
             <h:column>
                 <f:facet name="header"> X </f:facet>
-                #{result.point.x}
+                #{query.point.x}
             </h:column>
             <h:column>
                 <f:facet name="header"> Y </f:facet>
-                #{result.point.y}
+                #{query.point.y}
             </h:column>
             <h:column>
                 <f:facet name="header"> R </f:facet>
-                #{result.radius}
+                #{query.radius}
             </h:column>
             <h:column>
                 <f:facet name="header"> Попадает </f:facet>
-                #{result.result ? "Да" : "Нет"}
+                #{query.query ? "Да" : "Нет"}
             </h:column>
         </h:dataTable>
     </h:form>
@@ -172,8 +172,8 @@
                 </c:if>
             </c:forEach>
 
-            <c:forEach var="result" items="#{model.results}">
-                <circle cx="#{300+50*result.point.x}" cy="#{300-50*result.point.y}" r="5" style="#{picture.pointStyle(result.point, input)}" />
+            <c:forEach var="query" items="#{model.queries}">
+                <circle cx="#{300+50*query.point.x}" cy="#{300-50*query.point.y}" r="5" style="#{picture.pointStyle(query.point, input)}" />
             </c:forEach>
         </svg>
     </h:form>
