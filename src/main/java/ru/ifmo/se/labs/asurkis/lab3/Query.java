@@ -8,6 +8,7 @@ import java.util.Objects;
 @Table(name = "queries")
 public class Query implements Serializable {
     private int id;
+    private String sessionId;
     private Point point;
     private double radius;
 
@@ -54,6 +55,15 @@ public class Query implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Column(name = "query_session_id")
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Column(name = "query_point")

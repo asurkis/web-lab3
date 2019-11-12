@@ -12,7 +12,7 @@ body > form {
 }
 
 .resultsTable th, .resultsTable td {
-    width: 100px;
+    width: 200px;
 }
 
 .resultsTable td {

@@ -92,7 +92,7 @@
                      headerClass="resultsTableHeader"
                      rowClasses="resultsTableOddRow,resultsTableEvenRow">
             <h:column>
-                <h:commandButton action="#{model.removeQuery(query)}" value="Удалить" />
+                <h:commandButton action="#{model.removeQuery(query.id)}" value="Удалить" />
             </h:column>
             <h:column>
                 <f:facet name="header"> X </f:facet>
