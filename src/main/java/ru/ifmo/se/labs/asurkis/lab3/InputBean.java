@@ -1,4 +1,4 @@
-package ru.ifmo.se.labs.asurkis.lab3.beans;
+package ru.ifmo.se.labs.asurkis.lab3;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
