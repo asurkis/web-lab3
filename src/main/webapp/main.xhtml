@@ -108,7 +108,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header"> Попадает </f:facet>
-                #{query.result ? "Да" : "Нет"}
+                #{query.evaluateResult() ? "Да" : "Нет"}
             </h:column>
         </h:dataTable>
     </h:form>
