@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -20,6 +21,22 @@
 
     <h:form>
         <p:clock mode="server" displayMode="analog" />
+        <div>
+            Новый пользователь:
+            <h:inputText id="newUserInput" value="#{input.username}">
+                <f:validator validatorId="ru.ifmo.se.labs.asurkis.lab3.UsernameValidator" />
+            </h:inputText>
+            <h:commandButton action="#{input.addUser()}" value="Добавить" />
+            <h:message for="newUserInput" style="color: red" />
+        </div>
+        <div>
+            Пользователь:
+            <h:selectOneMenu value="#{input.username}">
+                <c:forEach var="user" items="#{model.users}">
+                    <f:selectItem itemValue="#{user.name}" itemLabel="#{user.name}" />
+                </c:forEach>
+            </h:selectOneMenu>
+        </div>
         <h:commandLink action="page" value="К основной странице" />
     </h:form>
 </h:body>

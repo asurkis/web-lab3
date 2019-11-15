@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "points")
 public class Point implements Serializable {
     private int id;
-    private String sessionId;
+    private User user;
     private int queryCount;
     private double x;
     private double y;
@@ -77,13 +77,13 @@ public class Point implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "session_id")
-    public String getSessionId() {
-        return sessionId;
+    @ManyToOne
+    public User getUser() {
+        return user;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Column(name = "query_count")
