@@ -48,12 +48,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.8</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.oracle.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.3.0.0</version>
-        </dependency>
     </dependencies>
 
     <build>
