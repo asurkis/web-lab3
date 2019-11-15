@@ -26,8 +26,12 @@ public class ModelBean implements Serializable {
 
     public void addQuery(Query q) {
         q.setSessionId(getSessionId());
+        Point p = q.getPoint();
+
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
+        p.setQueryCount(p.getQueryCount() + 1);
+        manager.merge(p);
         manager.persist(q);
         manager.getTransaction().commit();
         manager.close();
@@ -36,10 +40,20 @@ public class ModelBean implements Serializable {
     public void removeQuery(int queryId) {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        Query query = manager.find(Query.class, queryId);
-        if (getSessionId().equals(query.getSessionId())) {
-            manager.remove(query);
+        Query q = manager.find(Query.class, queryId);
+        Point p = manager.find(Point.class, q.getPointId());
+
+        if (getSessionId().equals(q.getSessionId())) {
+            manager.remove(q);
+            p.setQueryCount(p.getQueryCount() - 1);
         }
+
+        if (p.getQueryCount() > 0) {
+            manager.merge(p);
+        } else {
+            manager.remove(p);
+        }
+
         manager.getTransaction().commit();
         manager.close();
     }

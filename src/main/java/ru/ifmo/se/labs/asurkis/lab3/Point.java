@@ -8,6 +8,7 @@ import java.util.Objects;
 @Table(name = "points")
 public class Point implements Serializable {
     private int id;
+    private int queryCount;
     private double x;
     private double y;
 
@@ -73,6 +74,15 @@ public class Point implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Column(name = "point_query_count")
+    public int getQueryCount() {
+        return queryCount;
+    }
+
+    public void setQueryCount(int queryCount) {
+        this.queryCount = queryCount;
     }
 
     @Column(name = "point_x")
