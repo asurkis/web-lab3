@@ -1,12 +1,13 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+@Entity
+@Table(name = "points")
 public class Point implements Serializable {
+    private int id;
     private double x;
     private double y;
 
@@ -63,7 +64,18 @@ public class Point implements Serializable {
         return Objects.hash(x, y);
     }
 
-    @Column(name = "query_point_x")
+    @Id
+    @Column(name = "point_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Column(name = "point_x")
     public double getX() {
         return x;
     }
@@ -72,7 +84,7 @@ public class Point implements Serializable {
         this.x = x;
     }
 
-    @Column(name = "query_point_y")
+    @Column(name = "point_y")
     public double getY() {
         return y;
     }

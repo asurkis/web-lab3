@@ -176,6 +176,20 @@
             <c:forEach var="query" items="#{model.queries}">
                 <circle cx="#{300+50*query.point.x}" cy="#{300-50*query.point.y}" r="5" style="#{picture.pointStyle(query.point, input)}" />
             </c:forEach>
+
+            <c:choose>
+                <c:when test="#{picture.radiusCount != 0}">
+                <c:forEach var="i" begin="0" end="#{picture.radiusCount}">
+                    <circle cx="12" cy="#{24 * i + 12}" r="5"
+                            style="#{picture.pointStyleByCount(picture.radiusCount, i)}" />
+                    <text x="24" y="#{24 * i + 18}"> Попадает в #{i} радиус(ов) </text>
+                </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <circle cx="12" cy="12" r="5" style="#{picture.pointStyleByCount(0, 0)}" />
+                    <text x="24" y="18"> Радиусы не заданы </text>
+                </c:otherwise>
+            </c:choose>
         </svg>
     </h:form>
 </h:body>

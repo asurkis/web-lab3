@@ -1,5 +1,6 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -47,7 +48,8 @@ public class Query implements Serializable {
         return Objects.hash(point, radius);
     }
 
-    @Id @Column(name = "query_id")
+    @Id
+    @Column(name = "query_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
@@ -66,13 +68,24 @@ public class Query implements Serializable {
         this.sessionId = sessionId;
     }
 
-    @Column(name = "query_point")
+    @Transient
     public Point getPoint() {
         return point;
     }
 
     public void setPoint(Point point) {
         this.point = point;
+    }
+
+    @Column(name = "query_point_id")
+    public int getPointId() {
+        return point.getId();
+    }
+
+    public void setPointId(int pointId) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+        this.point = modelBean.getPointById(pointId);
     }
 
     @Column(name = "query_radius")

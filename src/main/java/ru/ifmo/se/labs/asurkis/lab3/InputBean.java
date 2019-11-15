@@ -18,9 +18,12 @@ public class InputBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
 
+        Point point = new Point(x, y);
+        modelBean.addPoint(point);
+
         for (int i = 0; i < rs.length; i++) {
             if (rs[i]) {
-                modelBean.addQuery(x, y, i + 1);
+                modelBean.addQuery(new Query(point, i + 1));
             }
         }
     }
