@@ -20,7 +20,6 @@
     </div>
 
     <h:form>
-        <p:clock mode="server" displayMode="analog" />
         <div>
             Новый пользователь:
             <h:inputText id="newUserInput" value="#{input.username}">
@@ -29,6 +28,10 @@
             <h:commandButton action="#{input.addUser()}" value="Добавить" />
             <h:message for="newUserInput" style="color: red" />
         </div>
+    </h:form>
+
+    <h:form>
+        <p:clock mode="server" displayMode="analog" />
         <div>
             Пользователь:
             <h:selectOneMenu value="#{input.username}">
