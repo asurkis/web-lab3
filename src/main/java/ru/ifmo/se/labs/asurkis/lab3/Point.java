@@ -8,6 +8,7 @@ import java.util.Objects;
 @Table(name = "points")
 public class Point implements Serializable {
     private int id;
+    private String sessionId;
     private int queryCount;
     private double x;
     private double y;
@@ -66,7 +67,7 @@ public class Point implements Serializable {
     }
 
     @Id
-    @Column(name = "point_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
@@ -76,7 +77,16 @@ public class Point implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "point_query_count")
+    @Column(name = "session_id")
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    @Column(name = "query_count")
     public int getQueryCount() {
         return queryCount;
     }
@@ -85,7 +95,7 @@ public class Point implements Serializable {
         this.queryCount = queryCount;
     }
 
-    @Column(name = "point_x")
+    @Column(name = "x")
     public double getX() {
         return x;
     }
@@ -94,7 +104,7 @@ public class Point implements Serializable {
         this.x = x;
     }
 
-    @Column(name = "point_y")
+    @Column(name = "y")
     public double getY() {
         return y;
     }

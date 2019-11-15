@@ -9,7 +9,6 @@ import java.util.Objects;
 @Table(name = "queries")
 public class Query implements Serializable {
     private int id;
-    private String sessionId;
     private Point point;
     private double radius;
 
@@ -22,7 +21,8 @@ public class Query implements Serializable {
         this.radius = radius;
     }
 
-    public boolean evaluateResult() {
+    @Column(name = "result")
+    public boolean getResult() {
         return point.fallsInto(radius);
     }
 
@@ -49,7 +49,7 @@ public class Query implements Serializable {
     }
 
     @Id
-    @Column(name = "query_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
@@ -59,16 +59,7 @@ public class Query implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "query_session_id")
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    @Transient
+    @ManyToOne
     public Point getPoint() {
         return point;
     }
@@ -77,18 +68,7 @@ public class Query implements Serializable {
         this.point = point;
     }
 
-    @Column(name = "query_point_id")
-    public int getPointId() {
-        return point.getId();
-    }
-
-    public void setPointId(int pointId) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
-        this.point = modelBean.getPointById(pointId);
-    }
-
-    @Column(name = "query_radius")
+    @Column(name = "radius")
     public double getRadius() {
         return radius;
     }
@@ -96,4 +76,6 @@ public class Query implements Serializable {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+
+    public void setResult(boolean result) {}
 }

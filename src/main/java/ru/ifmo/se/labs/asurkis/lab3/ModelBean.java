@@ -11,12 +11,16 @@ import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
+import static ru.ifmo.se.labs.asurkis.lab3.Utils.getSessionId;
+
 @ManagedBean(name="model")
 @SessionScoped
 public class ModelBean implements Serializable {
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("QueriesDB");
 
     public void addPoint(Point p) {
+        p.setSessionId(getSessionId());
+
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
         manager.persist(p);
@@ -25,7 +29,6 @@ public class ModelBean implements Serializable {
     }
 
     public void addQuery(Query q) {
-        q.setSessionId(getSessionId());
         Point p = q.getPoint();
 
         EntityManager manager = factory.createEntityManager();
@@ -41,9 +44,9 @@ public class ModelBean implements Serializable {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
         Query q = manager.find(Query.class, queryId);
-        Point p = manager.find(Point.class, q.getPointId());
+        Point p = q.getPoint();
 
-        if (getSessionId().equals(q.getSessionId())) {
+        if (getSessionId().equals(p.getSessionId())) {
             manager.remove(q);
             p.setQueryCount(p.getQueryCount() - 1);
         }
@@ -60,33 +63,19 @@ public class ModelBean implements Serializable {
 
     public List<Point> getPoints() {
         EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select p from Point p");
+        javax.persistence.Query query = manager.createQuery("select p from Point p where p.sessionId=:sessionId");
+        query.setParameter("sessionId", getSessionId());
         List<Point> result = query.getResultList();
-        manager.close();
-        return result;
-    }
-
-    public Point getPointById(int id) {
-        EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select p from Point p where p.id=:pointId");
-        query.setParameter("pointId", id);
-        Point result = (Point) query.getSingleResult();
         manager.close();
         return result;
     }
 
     public List<Query> getQueries() {
         EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select q from Query q where q.sessionId=:sessionId");
+        javax.persistence.Query query = manager.createQuery("select q from Query q where (select p.sessionId from Point p where p=q.point)=:sessionId");
         query.setParameter("sessionId", getSessionId());
         List<Query> result = query.getResultList();
         manager.close();
         return result;
-    }
-
-    private String getSessionId() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        return session.getId();
     }
 }

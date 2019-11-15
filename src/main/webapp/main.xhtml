@@ -108,7 +108,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header"> Попадает </f:facet>
-                #{query.evaluateResult() ? "Да" : "Нет"}
+                #{query.result ? "Да" : "Нет"}
             </h:column>
         </h:dataTable>
     </h:form>
@@ -173,8 +173,8 @@
                 </c:if>
             </c:forEach>
 
-            <c:forEach var="query" items="#{model.queries}">
-                <circle cx="#{300+50*query.point.x}" cy="#{300-50*query.point.y}" r="5" style="#{picture.pointStyle(query.point, input)}" />
+            <c:forEach var="point" items="#{model.points}">
+                <circle cx="#{300+50*point.x}" cy="#{300-50*point.y}" r="5" style="#{picture.pointStyle(point, input)}" />
             </c:forEach>
 
             <c:choose>
