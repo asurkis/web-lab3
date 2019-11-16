@@ -1,7 +1,9 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 
 @ManagedBean(name="picture")
@@ -18,10 +20,22 @@ public class PictureBean implements Serializable {
                 }
             }
         }
-        return pointStyle(radiusCount, matchCount);
+        return pointStyleByCount(radiusCount, matchCount);
     }
 
-    private String pointStyle(int radiusCount, int matchCount) {
+    public int getRadiusCount() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        InputBean inputBean = context.getApplication().evaluateExpressionGet(context, "#{input}", InputBean.class);
+
+        int result = 0;
+        for (int i = 0; i < 5; i++) {
+            if (inputBean.getRs()[i])
+                result++;
+        }
+        return result;
+    }
+
+    public String pointStyleByCount(int radiusCount, int matchCount) {
         if (radiusCount == 0) {
             return "stroke: #000; fill: #888";
         }

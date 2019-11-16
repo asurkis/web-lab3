@@ -1,5 +1,6 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,7 +9,6 @@ import java.util.Objects;
 @Table(name = "queries")
 public class Query implements Serializable {
     private int id;
-    private String sessionId;
     private Point point;
     private double radius;
 
@@ -21,7 +21,8 @@ public class Query implements Serializable {
         this.radius = radius;
     }
 
-    public boolean evaluateResult() {
+    @Column(name = "result")
+    public boolean getResult() {
         return point.fallsInto(radius);
     }
 
@@ -47,7 +48,8 @@ public class Query implements Serializable {
         return Objects.hash(point, radius);
     }
 
-    @Id @Column(name = "query_id")
+    @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
@@ -57,16 +59,7 @@ public class Query implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "query_session_id")
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    @Column(name = "query_point")
+    @ManyToOne
     public Point getPoint() {
         return point;
     }
@@ -75,7 +68,7 @@ public class Query implements Serializable {
         this.point = point;
     }
 
-    @Column(name = "query_radius")
+    @Column(name = "radius")
     public double getRadius() {
         return radius;
     }
@@ -83,4 +76,6 @@ public class Query implements Serializable {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+
+    public void setResult(boolean result) {}
 }
