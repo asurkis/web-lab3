@@ -1,6 +1,5 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
-import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -11,33 +10,53 @@ import java.util.Objects;
 @ManagedBean(name="input")
 @ViewScoped
 public class InputBean implements Serializable {
-    @ManagedProperty(value = "#{model}")
-    private ModelBean modelBean;
-
-    private String username;
+    private int userId;
+    private String newUsername;
     private double x;
     private double y;
     private boolean[] rs = new boolean[5];
 
     public void addCurrent() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+
         Point point = new Point(x, y);
-        modelBean.addPoint(point);
+        int queryCount = 0;
+        for (int i = 0; i < rs.length; i++) {
+            if (rs[i]) {
+                queryCount++;
+            }
+        }
+
+        int queryId = 0;
+        Query[] queries = new Query[queryCount];
 
         for (int i = 0; i < rs.length; i++) {
             if (rs[i]) {
-                modelBean.addQuery(new Query(point, i + 1));
+                queries[queryId++] = new Query(point, i + 1);
             }
         }
+
+        modelBean.addQueries(queries);
     }
 
     public void addUser() {
-        modelBean.addUser(new User(username));
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+
+        modelBean.addObjects(new User(newUsername));
+    }
+
+    public void removeUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+        modelBean.removeUser(userId);
     }
 
     @Override
     public String toString() {
         return "InputBean{" +
-                "username='" + username + '\'' +
+                "username='" + newUsername + '\'' +
                 ", x=" + x +
                 ", y=" + y +
                 ", rs=" + Arrays.toString(rs) +
@@ -51,23 +70,34 @@ public class InputBean implements Serializable {
         InputBean inputBean = (InputBean) o;
         return Double.compare(inputBean.x, x) == 0 &&
                 Double.compare(inputBean.y, y) == 0 &&
-                Objects.equals(username, inputBean.username) &&
+                Objects.equals(newUsername, inputBean.newUsername) &&
                 Arrays.equals(rs, inputBean.rs);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(username, x, y);
+        int result = Objects.hash(newUsername, x, y);
         result = 31 * result + Arrays.hashCode(rs);
         return result;
     }
 
-    public String getUsername() {
-        return username;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(int userId) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+        modelBean.setCurrentUser(userId);
+        this.userId = userId;
+    }
+
+    public String getNewUsername() {
+        return newUsername;
+    }
+
+    public void setNewUsername(String newUsername) {
+        this.newUsername = newUsername;
     }
 
     public double getX() {

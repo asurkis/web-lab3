@@ -1,7 +1,6 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;

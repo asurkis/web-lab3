@@ -1,6 +1,5 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
-import javax.faces.context.FacesContext;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;

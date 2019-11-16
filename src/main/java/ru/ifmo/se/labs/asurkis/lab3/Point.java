@@ -9,7 +9,6 @@ import java.util.Objects;
 public class Point implements Serializable {
     private int id;
     private User user;
-    private int queryCount;
     private double x;
     private double y;
 
@@ -84,15 +83,6 @@ public class Point implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Column(name = "query_count")
-    public int getQueryCount() {
-        return queryCount;
-    }
-
-    public void setQueryCount(int queryCount) {
-        this.queryCount = queryCount;
     }
 
     @Column(name = "x")

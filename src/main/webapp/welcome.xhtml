@@ -19,28 +19,34 @@
         <div>Вариант: 213905</div>
     </div>
 
+    <br/>
+
     <h:form>
+        <div>Добавить пользователя:</div>
+        <div><h:message for="newUserName" style="color: red"/></div>
         <div>
-            Новый пользователь:
-            <h:inputText id="newUserInput" value="#{input.username}">
-                <f:validator validatorId="ru.ifmo.se.labs.asurkis.lab3.UsernameValidator" />
+            <h:inputText id="newUserName" value="#{input.newUsername}" validatorMessage="Введите новое имя пользователя">
+                <f:validator validatorId="ru.ifmo.se.labs.asurkis.lab3.UsernameValidator"/>
             </h:inputText>
-            <h:commandButton action="#{input.addUser()}" value="Добавить" />
-            <h:message for="newUserInput" style="color: red" />
+            <h:commandButton action="#{input.addUser()}" value="Добавить"/>
         </div>
     </h:form>
 
+    <br/>
+
     <h:form>
-        <p:clock mode="server" displayMode="analog" />
+        <p:clock mode="server" displayMode="analog"/>
+        <br/>
+        <div>Пользователь:</div>
+        <div><h:message for="userSelect" style="color: red"/></div>
         <div>
-            Пользователь:
-            <h:selectOneMenu value="#{input.username}">
-                <c:forEach var="user" items="#{model.users}">
-                    <f:selectItem itemValue="#{user.name}" itemLabel="#{user.name}" />
-                </c:forEach>
+            <h:selectOneMenu id="userSelect" value="#{input.userId}" required="true" requiredMessage="Выберите пользователя">
+                <f:selectItem itemLabel="Выберите пользователя" itemValue="#{null}" noSelectionOption="true"/>
+                <f:selectItems var="user" value="#{model.users}" itemValue="#{user.id}" itemLabel="#{user.name}"/>
             </h:selectOneMenu>
+            <h:commandButton action="#{input.removeUser()}" value="Удалить"/>
         </div>
-        <h:commandLink action="page" value="К основной странице" />
+        <h:commandLink action="page" value="К основной странице"/>
     </h:form>
 </h:body>
 </html>

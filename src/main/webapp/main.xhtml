@@ -5,8 +5,8 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <h:outputStylesheet library="css" name="styles.css" />
-    <h:outputScript library="js" name="main.js" />
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <h:outputScript library="js" name="main.js"/>
 </h:head>
 
 <h:body>
@@ -20,28 +20,28 @@
                 <td> X: </td>
                 <td>
                     <h:selectOneMenu value="#{input.x}">
-                        <f:selectItem itemValue="-5" itemLabel="-5" />
-                        <f:selectItem itemValue="-4" itemLabel="-4" />
-                        <f:selectItem itemValue="-3" itemLabel="-3" />
-                        <f:selectItem itemValue="-2" itemLabel="-2" />
-                        <f:selectItem itemValue="-1" itemLabel="-1" />
-                        <f:selectItem itemValue="0" itemLabel="0" />
-                        <f:selectItem itemValue="1" itemLabel="1" />
-                        <f:selectItem itemValue="2" itemLabel="2" />
-                        <f:selectItem itemValue="3" itemLabel="3" />
+                        <f:selectItem itemValue="-5" itemLabel="-5"/>
+                        <f:selectItem itemValue="-4" itemLabel="-4"/>
+                        <f:selectItem itemValue="-3" itemLabel="-3"/>
+                        <f:selectItem itemValue="-2" itemLabel="-2"/>
+                        <f:selectItem itemValue="-1" itemLabel="-1"/>
+                        <f:selectItem itemValue="0" itemLabel="0"/>
+                        <f:selectItem itemValue="1" itemLabel="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
                     </h:selectOneMenu>
                 </td>
-                <td />
+                <td/>
             </tr>
 
             <tr>
                 <td> Y: </td>
                 <td>
                     <h:inputText id="inputY" value="#{input.y}" autocomplete="off" validatorMessage="Введите число от -3 до 5">
-                        <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
+                        <f:validateDoubleRange minimum="-3.0" maximum="5.0"/>
                     </h:inputText>
                 </td>
-                <td> <h:message for="inputY" style="color: red" /> </td>
+                <td><h:message for="inputY" style="color: red"/></td>
             </tr>
 
             <tr>
@@ -49,45 +49,45 @@
                 <td>
                     <div>
                         <h:selectBooleanCheckbox id="r1" value="#{input.rs[0]}">
-                            <f:ajax execute="r1" render="pictureForm" />
+                            <f:ajax execute="r1" render="pictureForm"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="r1"> 1 </h:outputLabel>
                     </div>
                     <div>
                         <h:selectBooleanCheckbox id="r2" value="#{input.rs[1]}">
-                            <f:ajax execute="r2" render="pictureForm" />
+                            <f:ajax execute="r2" render="pictureForm"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="r2"> 2 </h:outputLabel>
                     </div>
                     <div>
                         <h:selectBooleanCheckbox id="r3" value="#{input.rs[2]}">
-                            <f:ajax execute="r3" render="pictureForm" />
+                            <f:ajax execute="r3" render="pictureForm"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="r3"> 3 </h:outputLabel>
                     </div>
                     <div>
                         <h:selectBooleanCheckbox id="r4" value="#{input.rs[3]}">
-                            <f:ajax execute="r4" render="pictureForm" />
+                            <f:ajax execute="r4" render="pictureForm"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="r4"> 4 </h:outputLabel>
                     </div>
                     <div>
                         <h:selectBooleanCheckbox id="r5" value="#{input.rs[4]}">
-                            <f:ajax execute="r5" render="pictureForm" />
+                            <f:ajax execute="r5" render="pictureForm"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="r5"> 5 </h:outputLabel>
                     </div>
                 </td>
-                <td />
+                <td/>
             </tr>
 
             <tr>
                 <td colspan="3">
-                    <h:commandButton action="#{input.addCurrent()}" value="Проверить" />
+                    <h:commandButton action="#{input.addCurrent()}" value="Проверить"/>
                 </td>
             </tr>
         </table>
-        <h:commandLink action="page" value="Назад" />
+        <h:commandLink action="page" value="Назад"/>
     </h:form>
 
     <h:form id="tableForm">
@@ -96,7 +96,7 @@
                      headerClass="resultsTableHeader"
                      rowClasses="resultsTableOddRow,resultsTableEvenRow">
             <h:column>
-                <h:commandButton action="#{model.removeQuery(query.id)}" value="Удалить" />
+                <h:commandButton action="#{model.removeQuery(query.id)}" value="Удалить"/>
             </h:column>
             <h:column>
                 <f:facet name="header"> X </f:facet>
@@ -124,12 +124,12 @@
             Поэтому в этот раз картинка будет справа
         -->
         <h:inputText id="svgInputX" value="#{input.x}">
-            <f:validateDoubleRange minimum="-5.0" maximum="3.0" />
+            <f:validateDoubleRange minimum="-5.0" maximum="3.0"/>
         </h:inputText>
         <h:inputText id="svgInputY" value="#{input.y}">
-            <f:validateDoubleRange minimum="-3.0" maximum="5.0" />
+            <f:validateDoubleRange minimum="-3.0" maximum="5.0"/>
         </h:inputText>
-        <h:commandButton id="checkButton" action="#{input.addCurrent()}" value="Проверить" />
+        <h:commandButton id="checkButton" action="#{input.addCurrent()}" value="Проверить"/>
 
         <svg xmlns="http://www.w3.org/2000/svg"
              xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -142,55 +142,55 @@
                 то я решил развернуть цикл. По-хорошему вот это делается проще
             -->
             <c:if test="#{input.rs[4]}">
-                <path id="r5-path" d="M300 50 A250 250 0 0 1 550 300 L425 300 L300 425 L300 300 L50 300 L50 175 L300 175 Z" />
+                <path id="r5-path" d="M300 50 A250 250 0 0 1 550 300 L425 300 L300 425 L300 300 L50 300 L50 175 L300 175 Z"/>
             </c:if>
             <c:if test="#{input.rs[3]}">
-                <path id="r4-path" d="M300 100 A200 200 0 0 1 500 300 L400 300 L300 400 L300 300 L100 300 L100 200 L300 200 Z" />
+                <path id="r4-path" d="M300 100 A200 200 0 0 1 500 300 L400 300 L300 400 L300 300 L100 300 L100 200 L300 200 Z"/>
             </c:if>
             <c:if test="#{input.rs[2]}">
-                <path id="r3-path" d="M300 150 A150 150 0 0 1 450 300 L375 300 L300 375 L300 300 L150 300 L150 225 L300 225 Z" />
+                <path id="r3-path" d="M300 150 A150 150 0 0 1 450 300 L375 300 L300 375 L300 300 L150 300 L150 225 L300 225 Z"/>
             </c:if>
             <c:if test="#{input.rs[1]}">
-                <path id="r2-path" d="M300 200 A100 100 0 0 1 400 300 L350 300 L300 350 L300 300 L200 300 L200 250 L300 250 Z" />
+                <path id="r2-path" d="M300 200 A100 100 0 0 1 400 300 L350 300 L300 350 L300 300 L200 300 L200 250 L300 250 Z"/>
             </c:if>
             <c:if test="#{input.rs[0]}">
-                <path id="r1-path" d="M300 250 A50 50 0 0 1 350 300 L325 300 L300 325 L300 300 L250 300 L250 275 L300 275 Z" />
+                <path id="r1-path" d="M300 250 A50 50 0 0 1 350 300 L325 300 L300 325 L300 300 L250 300 L250 275 L300 275 Z"/>
             </c:if>
 
-            <line x1="300" y1="10" x2="300" y2="600" />
-            <line x1="0" y1="300" x2="590" y2="300" />
-            <polygon points="300 0 295 10 305 10" />
-            <polygon points="600 300 590 295 590 305" />
+            <line x1="300" y1="10" x2="300" y2="600"/>
+            <line x1="0" y1="300" x2="590" y2="300"/>
+            <polygon points="300 0 295 10 305 10"/>
+            <polygon points="600 300 590 295 590 305"/>
             <text x="290" y="10" text-anchor="end"> y </text>
             <text x="595" y="290" text-anchor="end"> x </text>
 
             <c:forEach var="i" begin="0" end="5">
-                <circle cx="${300+50*i}" cy="300" r="3" />
+                <circle cx="${300+50*i}" cy="300" r="3"/>
                 <text x="${296+50*i}" y="296" text-anchor="end"> ${i} </text>
                 <c:if test="${i != 0}">
-                    <circle cx="${300-50*i}" cy="300" r="3" />
+                    <circle cx="${300-50*i}" cy="300" r="3"/>
                     <text x="${296-50*i}" y="296" text-anchor="end"> ${-i} </text>
-                    <circle cx="300" cy="${300-50*i}" r="3" />
+                    <circle cx="300" cy="${300-50*i}" r="3"/>
                     <text x="296" y="${296-50*i}" text-anchor="end"> ${i} </text>
-                    <circle cx="300" cy="${300+50*i}" r="3" />
+                    <circle cx="300" cy="${300+50*i}" r="3"/>
                     <text x="296" y="${296+50*i}" text-anchor="end"> ${-i} </text>
                 </c:if>
             </c:forEach>
 
             <c:forEach var="point" items="#{model.points}">
-                <circle cx="#{300+50*point.x}" cy="#{300-50*point.y}" r="5" style="#{picture.pointStyle(point, input)}" />
+                <circle cx="#{300+50*point.x}" cy="#{300-50*point.y}" r="5" style="#{picture.pointStyle(point, input)}"/>
             </c:forEach>
 
             <c:choose>
                 <c:when test="#{picture.radiusCount != 0}">
                 <c:forEach var="i" begin="0" end="#{picture.radiusCount}">
                     <circle cx="12" cy="#{24 * i + 12}" r="5"
-                            style="#{picture.pointStyleByCount(picture.radiusCount, i)}" />
+                            style="#{picture.pointStyleByCount(picture.radiusCount, i)}"/>
                     <text x="24" y="#{24 * i + 18}"> Попадает в #{i} радиус(ов) </text>
                 </c:forEach>
                 </c:when>
                 <c:otherwise>
-                    <circle cx="12" cy="12" r="5" style="#{picture.pointStyleByCount(0, 0)}" />
+                    <circle cx="12" cy="12" r="5" style="#{picture.pointStyleByCount(0, 0)}"/>
                     <text x="24" y="18"> Радиусы не заданы </text>
                 </c:otherwise>
             </c:choose>

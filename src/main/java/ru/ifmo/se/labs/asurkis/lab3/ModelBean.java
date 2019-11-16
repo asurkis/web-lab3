@@ -2,48 +2,38 @@ package ru.ifmo.se.labs.asurkis.lab3;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
-@ManagedBean(name="model")
+@ManagedBean(name = "model")
 @SessionScoped
 public class ModelBean implements Serializable {
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("QueriesDB");
     private User currentUser;
 
-    public void addPoint(Point p) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        InputBean inputBean = context.getApplication().evaluateExpressionGet(context, "#{input}", InputBean.class);
-
+    public void addQueries(Query... queries) {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        manager.persist(p);
+        for (Query q : queries) {
+            Point p = q.getPoint();
+            p.setUser(currentUser);
+            manager.persist(p);
+            manager.persist(q);
+        }
         manager.getTransaction().commit();
         manager.close();
     }
 
-    public void addQuery(Query q) {
-        Point p = q.getPoint();
-
+    public void addObjects(Object... objects) {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        p.setQueryCount(p.getQueryCount() + 1);
-        manager.merge(p);
-        manager.persist(q);
-        manager.getTransaction().commit();
-        manager.close();
-    }
-
-    public void addUser(User u) {
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-        manager.persist(u);
+        for (Object o : objects) {
+            manager.persist(o);
+        }
         manager.getTransaction().commit();
         manager.close();
     }
@@ -51,54 +41,94 @@ public class ModelBean implements Serializable {
     public void removeQuery(int queryId) {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        Query q = manager.find(Query.class, queryId);
-        Point p = q.getPoint();
-
-        if (currentUser.getId() == p.getUser().getId()) {
-            manager.remove(q);
-            p.setQueryCount(p.getQueryCount() - 1);
-        }
-
-        if (p.getQueryCount() > 0) {
-            manager.merge(p);
-        } else {
-            manager.remove(p);
-        }
+        manager.createQuery("DELETE FROM Query q WHERE :queryId=q.id AND :user=(SELECT p.user FROM Point p WHERE p=q.point)")
+                .setParameter("queryId", queryId)
+                .setParameter("user", currentUser)
+                .executeUpdate();
+//        Query q = manager.find(Query.class, queryId);
+//
+//        if (Objects.equals(currentUser, q.getPoint().getUser())) {
+//            manager.remove(q);
+//        }
+        manager.createQuery("DELETE FROM Point p WHERE 0=(SELECT COUNT(*) FROM Query q WHERE p=q.point)").executeUpdate();
 
         manager.getTransaction().commit();
         manager.close();
     }
 
+    public void removeUser(int userId) {
+        EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+        manager.createQuery("DELETE FROM Query q WHERE :userId=(SELECT p.user.id FROM Point p WHERE p=q.point)").setParameter("userId", userId).executeUpdate();
+        manager.createQuery("DELETE FROM Point p WHERE :userId=(SELECT u.id FROM User u WHERE u=p.user)").setParameter("userId", userId).executeUpdate();
+        manager.createQuery("DELETE FROM User  u WHERE :userId=u.id").setParameter("userId", userId).executeUpdate();
+        manager.getTransaction().commit();
+        manager.close();
+    }
+
+    public void removeUser(User user) {
+        EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+        manager.createQuery("DELETE FROM Query q WHERE :user=(SELECT p.user FROM Point p WHERE p=q.point)").setParameter("user", user).executeUpdate();
+        manager.createQuery("DELETE FROM Point p WHERE :user=p.user").setParameter("user", user).executeUpdate();
+        manager.remove(user);
+        manager.getTransaction().commit();
+        manager.close();
+    }
+
+    public void removeUnusedPoints() {
+        EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+        manager.createQuery("DELETE FROM Point p WHERE 0=(SELECT COUNT(*) FROM Query q WHERE p=q.point)").executeUpdate();
+        manager.getTransaction().commit();
+        manager.close();
+    }
+
+    public User findUser(int userId) {
+        EntityManager manager = factory.createEntityManager();
+        User result = manager.find(User.class, userId);
+        manager.close();
+        return result;
+    }
+
+    public boolean userExists(String username) {
+        EntityManager manager = factory.createEntityManager();
+        Boolean result = manager.createQuery("SELECT COUNT(*)<>0 FROM User u where :username=u.name", Boolean.class).setParameter("username", username).getSingleResult();
+        manager.close();
+        return result;
+    }
+
     public List<Point> getPoints() {
         EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select p from Point p where p.user=:currentUser");
-        query.setParameter("currentUser", currentUser);
-//        query.setParameter("sessionId", getSessionId());
-        List<Point> result = query.getResultList();
+        List<Point> result = manager.createQuery(
+                "SELECT p FROM Point p WHERE :user=p.user", Point.class
+        ).setParameter("user", currentUser).getResultList();
         manager.close();
         return result;
     }
 
     public List<Query> getQueries() {
         EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select q from Query q where (select p.user from Point p where p=q.point)=:currentUser");
-        query.setParameter("currentUser", currentUser);
-//        query.setParameter("sessionId", getSessionId());
-        List<Query> result = query.getResultList();
+        List<Query> result = manager.createQuery(
+                "SELECT q FROM Query q WHERE :user=q.point.user", Query.class
+        ).setParameter("user", currentUser).getResultList();
         manager.close();
         return result;
     }
 
     public List<User> getUsers() {
         EntityManager manager = factory.createEntityManager();
-        javax.persistence.Query query = manager.createQuery("select u from User u");
-        List<User> result = query.getResultList();
+        List<User> result = manager.createQuery("SELECT u FROM User u", User.class).getResultList();
         manager.close();
         return result;
     }
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void setCurrentUser(int userId) {
+        setCurrentUser(findUser(userId));
     }
 
     public void setCurrentUser(User currentUser) {

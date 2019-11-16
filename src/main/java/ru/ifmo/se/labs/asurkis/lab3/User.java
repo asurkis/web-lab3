@@ -1,11 +1,12 @@
 package ru.ifmo.se.labs.asurkis.lab3;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     private int id;
     private String name;
 
