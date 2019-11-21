@@ -5,6 +5,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @ManagedBean(name="input")
@@ -15,6 +16,13 @@ public class InputBean implements Serializable {
     private double x;
     private double y;
     private boolean[] rs = new boolean[5];
+    private List<Query> queryList;
+
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+        queryList = modelBean.getQueries();
+    }
 
     public void addCurrent() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -38,6 +46,7 @@ public class InputBean implements Serializable {
         }
 
         modelBean.addQueries(queries);
+        queryList = modelBean.getQueries();
     }
 
     public void addUser() {
@@ -51,6 +60,13 @@ public class InputBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
         modelBean.removeUser(userId);
+    }
+
+    public void updateQueries() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ModelBean modelBean = context.getApplication().evaluateExpressionGet(context, "#{model}", ModelBean.class);
+        modelBean.updateQueries(queryList);
+        queryList = modelBean.getQueries();
     }
 
     @Override
@@ -122,5 +138,13 @@ public class InputBean implements Serializable {
 
     public void setRs(boolean[] rs) {
         this.rs = rs;
+    }
+
+    public List<Query> getQueryList() {
+        return queryList;
+    }
+
+    public void setQueryList(List<Query> queryList) {
+        this.queryList = queryList;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Objects;
 @Table(name = "queries")
 public class Query implements Serializable {
     private int id;
+    private boolean toDelete;
     private Point point;
     private double radius;
 
@@ -56,6 +57,15 @@ public class Query implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Transient
+    public boolean isToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        this.toDelete = toDelete;
     }
 
     @ManyToOne

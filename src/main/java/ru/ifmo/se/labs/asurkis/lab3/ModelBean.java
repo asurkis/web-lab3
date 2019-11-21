@@ -28,6 +28,27 @@ public class ModelBean implements Serializable {
         manager.close();
     }
 
+    public void updateQueries(List<Query> queryList) {
+        EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+        for (Query query: queryList) {
+            Query q = manager.find(Query.class, query.getId());
+            Point p = q.getPoint();
+            if (currentUser.getId() != p.getUser().getId()) {
+                continue;
+            }
+            if (query.isToDelete()) {
+                manager.remove(q);
+            } else {
+                q.setRadius(query.getRadius());
+                manager.merge(q);
+            }
+        }
+        manager.createQuery("DELETE FROM Point p WHERE 0=(SELECT COUNT(*) FROM Query q WHERE p=q.point)").executeUpdate();
+        manager.getTransaction().commit();
+        manager.close();
+    }
+
     public void addObjects(Object... objects) {
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
@@ -45,11 +66,6 @@ public class ModelBean implements Serializable {
                 .setParameter("queryId", queryId)
                 .setParameter("user", currentUser)
                 .executeUpdate();
-//        Query q = manager.find(Query.class, queryId);
-//
-//        if (Objects.equals(currentUser, q.getPoint().getUser())) {
-//            manager.remove(q);
-//        }
         manager.createQuery("DELETE FROM Point p WHERE 0=(SELECT COUNT(*) FROM Query q WHERE p=q.point)").executeUpdate();
 
         manager.getTransaction().commit();
@@ -101,7 +117,7 @@ public class ModelBean implements Serializable {
     public List<Point> getPoints() {
         EntityManager manager = factory.createEntityManager();
         List<Point> result = manager.createQuery(
-                "SELECT p FROM Point p WHERE :user=p.user", Point.class
+                "SELECT p FROM Point p WHERE :user=p.user ORDER BY p.id", Point.class
         ).setParameter("user", currentUser).getResultList();
         manager.close();
         return result;
@@ -110,7 +126,7 @@ public class ModelBean implements Serializable {
     public List<Query> getQueries() {
         EntityManager manager = factory.createEntityManager();
         List<Query> result = manager.createQuery(
-                "SELECT q FROM Query q WHERE :user=q.point.user", Query.class
+                "SELECT q FROM Query q WHERE :user=q.point.user ORDER BY q.id", Query.class
         ).setParameter("user", currentUser).getResultList();
         manager.close();
         return result;
@@ -118,7 +134,7 @@ public class ModelBean implements Serializable {
 
     public List<User> getUsers() {
         EntityManager manager = factory.createEntityManager();
-        List<User> result = manager.createQuery("SELECT u FROM User u", User.class).getResultList();
+        List<User> result = manager.createQuery("SELECT u FROM User u ORDER BY u.id", User.class).getResultList();
         manager.close();
         return result;
     }
